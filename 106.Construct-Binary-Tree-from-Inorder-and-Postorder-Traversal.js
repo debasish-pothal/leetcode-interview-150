@@ -12,16 +12,20 @@
  * @return {TreeNode}
  */
 var buildTree = function (inorder, postorder) {
-  if (!inorder.length && !postorder.length) {
-    return null;
-  }
+  const helper = (start, end) => {
+    if (start > end) {
+      return null;
+    }
 
-  const nodeVal = postorder.pop();
-  const node = new TreeNode(nodeVal);
-  const index = inorder.indexOf(nodeVal);
+    const nodeVal = postorder.pop();
+    const node = new TreeNode(nodeVal);
+    const index = inorder.indexOf(nodeVal);
 
-  node.right = buildTree(inorder.slice(index + 1), postorder);
-  node.left = buildTree(inorder.slice(0, index), postorder);
+    node.right = helper(index + 1, end);
+    node.left = helper(start, index - 1);
 
-  return node;
+    return node;
+  };
+
+  return helper(0, inorder.length - 1);
 };
