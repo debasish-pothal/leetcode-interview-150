@@ -13,11 +13,14 @@ var rob = function (nums) {
     return nums[0];
   }
 
-  const result = [nums[0], Math.max(nums[0], nums[1])];
+  let rob1 = nums[0];
+  let rob2 = Math.max(nums[0], nums[1]);
 
   for (let i = 2; i < length; i++) {
-    result[i] = Math.max(nums[i], nums[i] + result[i - 2], result[i - 1]);
+    const temp = Math.max(nums[i], nums[i] + rob1, rob2);
+    rob1 = rob2;
+    rob2 = temp;
   }
 
-  return Math.max(result[length - 1], result[length - 2]);
+  return Math.max(rob1, rob2);
 };
